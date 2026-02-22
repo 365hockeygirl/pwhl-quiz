@@ -271,7 +271,7 @@ const questions = [
       { label: "Baseball dessert? ⚾", sub: "", team: "Ottawa Charge" },
       { label: "Poutine 🍟", sub: "", team: "Montreal Victoire" },
       { label: "Pizza 🍕", sub: "", team: "New York Sirens" },
-      { label: "Chocolate pudding 🍫", sub: "", team: "Toronto Sceptres" },
+      { label: "Jamaican beef patty 🫓", sub: "", team: "Toronto Sceptres" },
       { label: "Caesar salad 🥗", sub: "", team: "Boston Fleet" },
       { label: "Hot dish 🥘", sub: "", team: "Minnesota Frost" },
       { label: "Japadog 🌭", sub: "", team: "Vancouver Goldeneyes" },
@@ -315,6 +315,15 @@ const questions = [
       { label: "Marie-Philip Poulin", sub: "", team: "Montreal Victoire" },
       { label: "Gwyn Philips", sub: "", team: "Ottawa Charge" },
       { label: "Emma Maltais", sub: "", team: "Toronto Sceptres" }
+    ]
+  },
+  {
+    text: "Canada or USA (or neither)?",
+    type: "country",
+    options: [
+      { label: "Y'all know I'm Canada down 🍁", country: "canada" },
+      { label: "Play Free Bird 🦅", country: "usa" },
+      { label: "No preference! 🌍", country: "none" }
     ]
   }
 ];
@@ -368,9 +377,25 @@ function selectOption(i) {
   document.getElementById('btn-next').disabled = false;
 }
 
+const CANADIAN_TEAMS = ["Vancouver Goldeneyes", "Montreal Victoire", "Ottawa Charge", "Toronto Sceptres"];
+const US_TEAMS = ["Seattle Torrent", "Boston Fleet", "New York Sirens", "Minnesota Frost"];
+
 function next() {
-  const chosen = questions[currentQuestion].options[answers[currentQuestion]];
-  scores[chosen.team]++;
+  const q = questions[currentQuestion];
+  const chosen = q.options[answers[currentQuestion]];
+
+  if (q.type === 'country') {
+    // Award 2 bonus points to matching teams
+    if (chosen.country === 'canada') {
+      CANADIAN_TEAMS.forEach(t => scores[t] += 2);
+    } else if (chosen.country === 'usa') {
+      US_TEAMS.forEach(t => scores[t] += 2);
+    }
+    // 'none' adds no points
+  } else {
+    scores[chosen.team]++;
+  }
+
   if (currentQuestion < questions.length - 1) {
     currentQuestion++;
     renderQuestion();
@@ -382,8 +407,9 @@ function next() {
 function showResult() {
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   let winner = sorted[0][0];
+  // Tiebreaker: use player question (question 4, index 3)
   if (sorted[0][1] === sorted[1][1]) {
-    winner = questions[questions.length - 1].options[answers[answers.length - 1]].team;
+    winner = questions[3].options[answers[3]].team;
   }
 
   document.getElementById('quiz-body').style.display = 'none';
