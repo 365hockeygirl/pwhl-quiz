@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PWHL Team Personality Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #5170ff, #ff66c4);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  #sparkle-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .quiz {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    width: 100%;
+  }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .progress-dot {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 99px;
+    transition: background 0.3s;
+  }
+
+  .progress-dot.done { background: #fff; }
+
+  .question-num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .opt {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s;
+    line-height: 1.4;
+    width: 100%;
+  }
+
+  .opt:hover { border-color: #fff; background: rgba(255,255,255,0.25); }
+
+  .opt.selected {
+    border-color: #fff;
+    background: rgba(255,255,255,0.3);
+    font-weight: 500;
+  }
+
+  .opt .opt-sub {
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  .btn-next {
+    margin-top: 20px;
+    width: 100%;
+    padding: 13px;
+    background: #fff;
+    color: #5170ff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .result { display: none; text-align: center; }
+
+  .result-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 0 auto 16px;
+    display: block;
+  }
+
+  .result h2 {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .result p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .answer-summary {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+
+  .a-label {
+    color: rgba(255,255,255,0.65);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .a-value {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .btn-subscribe {
+    display: inline-block;
+    background: #fff;
+    color: #5170ff;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .btn-restart {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sparkle-canvas"></canvas>
+
+<div class="quiz">
+  <h1>PWHL Team Personality Test✨</h1>
+  <p class="subtitle">presented by 365 Hockey Girl</p>
+
+  <div id="quiz-body">
+    <div class="progress" id="progress"></div>
+    <div class="question-num" id="q-num"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="q-options"></div>
+    <button class="btn-next" id="btn-next" disabled onclick="next()">Next →</button>
+  </div>
+
+  <div class="result" id="result">
+    <img class="result-logo" id="r-logo" src="" alt="Team logo" />
+    <h2 id="r-team"></h2>
+    <p id="r-desc"></p>
+    <div id="r-answers" style="text-align:left; margin-bottom:24px;"></div>
+    <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/subscribe" target="_blank" rel="noopener">subscribe to my newsletter 💌</a>
+    <br><br>
+    <button class="btn-restart" onclick="restart()">Start over</button>
+  </div>
+</div>
+
+<script>
+const TEAMS = [
+  "Seattle Torrent","Vancouver Goldeneyes","Boston Fleet","New York Sirens",
+  "Minnesota Frost","Montreal Victoire","Ottawa Charge","Toronto Sceptres"
+];
+
+const LOGOS = {
+  "Seattle Torrent":      "https://res.cloudinary.com/pwhl-low/image/upload/c_fill,w_624/q_auto/f_auto/SEA-t-11.4.25-logo-RGB-Lock-up-Primary_qhe8r8",
+  "Vancouver Goldeneyes": "https://res.cloudinary.com/pwhl-low/image/upload/c_fill,w_624/q_auto/f_auto/VAN-GE-11.4.25-LockupDark",
+  "Boston Fleet":         "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_96/q_auto/f_auto/PWHL-Boston-Fleet-Emblem_Primary_qv37gu",
+  "New York Sirens":      "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_144/q_auto/f_auto/PWHLNewYorkSirens-Logo-Primary_blqcfe",
+  "Minnesota Frost":      "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_96/q_auto/f_auto/PWHLMinnesotaFrost-Logo-Primary_qgglsu",
+  "Montreal Victoire":    "https://res.cloudinary.com/pwhl-low/image/upload/PWHL_Montreal_Victoire_Emblem_Primary-cropped_ptiglw",
+  "Ottawa Charge":        "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_144/q_auto/f_auto/OttawaChargeLogo_umto9w",
+  "Toronto Sceptres":     "https://res.cloudinary.com/pwhl-low/image/upload/PWHL_Toronto_Sceptres_Emblem_Primary_qohlxz"
+};
+
+const TEAM_INFO = {
+  "Seattle Torrent":      { desc: "Placeholder text Seattle Torrent", instagram: "https://www.instagram.com/p/PLACEHOLDER_SEATTLE/" },
+  "Vancouver Goldeneyes": { desc: "Placeholder text Vancouver Goldeneyes", instagram: "https://www.instagram.com/p/PLACEHOLDER_VANCOUVER/" },
+  "Boston Fleet":         { desc: "Placeholder text Boston Fleet", instagram: "https://www.instagram.com/p/PLACEHOLDER_BOSTON/" },
+  "New York Sirens":      { desc: "Placeholder text New York Sirens", instagram: "https://www.instagram.com/p/PLACEHOLDER_NEWYORK/" },
+  "Minnesota Frost":      { desc: "Placeholder text Minnesota Frost", instagram: "https://www.instagram.com/p/PLACEHOLDER_MINNESOTA/" },
+  "Montreal Victoire":    { desc: "Placeholder text Montreal Victoire", instagram: "https://www.instagram.com/p/PLACEHOLDER_MONTREAL/" },
+  "Ottawa Charge":        { desc: "Placeholder text Ottawa Charge", instagram: "https://www.instagram.com/p/PLACEHOLDER_OTTAWA/" },
+  "Toronto Sceptres":     { desc: "Placeholder text Toronto Sceptres", instagram: "https://www.instagram.com/p/PLACEHOLDER_TORONTO/" }
+};
+
+const questions = [
+  {
+    text: "Pick a food:",
+    options: [
+      { label: "Baseball dessert? ⚾", sub: "", team: "Ottawa Charge" },
+      { label: "Poutine 🍟", sub: "", team: "Montreal Victoire" },
+      { label: "Pizza 🍕", sub: "", team: "New York Sirens" },
+      { label: "Chocolate pudding 🍫", sub: "", team: "Toronto Sceptres" },
+      { label: "Caesar salad 🥗", sub: "", team: "Boston Fleet" },
+      { label: "Hot dish 🥘", sub: "", team: "Minnesota Frost" },
+      { label: "Japadog 🌭", sub: "", team: "Vancouver Goldeneyes" },
+      { label: "Dick's Drive-In 🍔", sub: "", team: "Seattle Torrent" }
+    ]
+  },
+  {
+    text: "Pick a superhero:",
+    options: [
+      { label: "Captain America 🛡️", sub: "", team: "Seattle Torrent" },
+      { label: "Storm ⚡", sub: "", team: "Ottawa Charge" },
+      { label: "Supergirl ⭐", sub: "", team: "Toronto Sceptres" },
+      { label: "Kate Bishop (Hawkeye) 🏹", sub: "", team: "Vancouver Goldeneyes" },
+      { label: "Spider-Man 🕷️", sub: "", team: "New York Sirens" },
+      { label: "Hulk 💚", sub: "", team: "Boston Fleet" },
+      { label: "Scarlet Witch 🔮", sub: "", team: "Montreal Victoire" },
+      { label: "Thanos 💜", sub: "", team: "Minnesota Frost" }
+    ]
+  },
+  {
+    text: "Pick a song:",
+    options: [
+      { label: "Bad Reputation 🎸", sub: "Joan Jett", team: "Boston Fleet" },
+      { label: "Pretty Woman 🌹", sub: "Roy Orbison", team: "Toronto Sceptres" },
+      { label: "Let's Get Loud 🎉", sub: "Jennifer Lopez", team: "Vancouver Goldeneyes" },
+      { label: "Empire State of Mind 🗽", sub: "Jay-Z ft. Alicia Keys", team: "New York Sirens" },
+      { label: "Misery Business 🖤", sub: "Paramore", team: "Seattle Torrent" },
+      { label: "Don't Stop Me Now 🚀", sub: "Queen", team: "Minnesota Frost" },
+      { label: "C'est la vie 🕺", sub: "Khaled", team: "Montreal Victoire" },
+      { label: "Gonna Celebrate 🥳", sub: "The Phantoms", team: "Ottawa Charge" }
+    ]
+  },
+  {
+    text: "Pick a player:",
+    options: [
+      { label: "Hilary Knight", sub: "", team: "Seattle Torrent" },
+      { label: "Sarah Nurse", sub: "", team: "Vancouver Goldeneyes" },
+      { label: "Megan Keller", sub: "", team: "Boston Fleet" },
+      { label: "Sarah Fillier", sub: "", team: "New York Sirens" },
+      { label: "Taylor Heise", sub: "", team: "Minnesota Frost" },
+      { label: "Marie-Philip Poulin", sub: "", team: "Montreal Victoire" },
+      { label: "Gwyn Philips", sub: "", team: "Ottawa Charge" },
+      { label: "Emma Maltais", sub: "", team: "Toronto Sceptres" }
+    ]
+  }
+];
+
+// currentQuestion tracks which question the user is on (0-indexed)
+let currentQuestion = 0;
+let scores = {};
+let answers = [];
+
+function init() {
+  scores = {};
+  TEAMS.forEach(t => scores[t] = 0);
+  answers = [];
+  currentQuestion = 0;
+}
+
+function renderQuestion() {
+  const q = questions[currentQuestion];
+
+  const prog = document.getElementById('progress');
+  prog.innerHTML = '';
+  for (let i = 0; i < questions.length; i++) {
+    const d = document.createElement('div');
+    d.className = 'progress-dot' + (i < currentQuestion ? ' done' : '');
+    prog.appendChild(d);
+  }
+
+  document.getElementById('q-num').textContent = 'Question ' + (currentQuestion + 1) + ' of ' + questions.length;
+  document.getElementById('q-text').textContent = q.text;
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt' + (answers[currentQuestion] === i ? ' selected' : '');
+    btn.innerHTML = o.label + (o.sub ? '<span class="opt-sub">' + o.sub + '</span>' : '');
+    btn.onclick = () => selectOption(i);
+    opts.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.textContent = currentQuestion === questions.length - 1 ? 'See my team ✨' : 'Next →';
+  nextBtn.disabled = answers[currentQuestion] === undefined;
+}
+
+function selectOption(i) {
+  answers[currentQuestion] = i;
+  document.querySelectorAll('.opt').forEach((el, idx) => {
+    el.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('btn-next').disabled = false;
+}
+
+function next() {
+  const chosen = questions[currentQuestion].options[answers[currentQuestion]];
+  scores[chosen.team]++;
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  let winner = sorted[0][0];
+  if (sorted[0][1] === sorted[1][1]) {
+    winner = questions[questions.length - 1].options[answers[answers.length - 1]].team;
+  }
+
+  document.getElementById('quiz-body').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('r-logo').src = LOGOS[winner];
+  document.getElementById('r-team').textContent = winner;
+  document.getElementById('r-desc').textContent = TEAM_INFO[winner].desc;
+
+  const igUrl = TEAM_INFO[winner].instagram;
+  if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
+    const igDiv = document.createElement('div');
+    igDiv.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
+    igDiv.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
+    document.getElementById('r-answers').before(igDiv);
+    if (window.instgrm) { window.instgrm.Embeds.process(); }
+    else {
+      const s = document.createElement('script');
+      s.src = 'https://www.instagram.com/embed.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
+  }
+
+  document.getElementById('r-answers').innerHTML = questions.map((q, i) => {
+    const chosen = q.options[answers[i]];
+    return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><div class="a-value">' + chosen.label + '</div></div>';
+  }).join('');
+}
+
+function restart() {
+  init();
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('result').style.display = 'none';
+  renderQuestion();
+}
+
+init();
+renderQuestion();
+
+// ---- Sparkle animation ----
+const sparkleCanvas = document.getElementById('sparkle-canvas');
+const sparkleCtx = sparkleCanvas.getContext('2d');
+let sparkles = [];
+
+function resizeCanvas() {
+  sparkleCanvas.width = window.innerWidth;
+  sparkleCanvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+function createSparkle() {
+  return {
+    x: randomBetween(0, sparkleCanvas.width),
+    y: randomBetween(0, sparkleCanvas.height),
+    size: randomBetween(2, 6),
+    opacity: randomBetween(0.4, 1),
+    speedY: randomBetween(-0.4, -1.2),
+    speedX: randomBetween(-0.3, 0.3),
+    twinkleSpeed: randomBetween(0.01, 0.03),
+    twinkleDir: 1,
+    shape: Math.random() > 0.5 ? 'star' : 'dot'
+  };
+}
+
+for (let i = 0; i < 60; i++) sparkles.push(createSparkle());
+
+function drawStar(x, y, size, opacity) {
+  sparkleCtx.save();
+  sparkleCtx.translate(x, y);
+  sparkleCtx.globalAlpha = opacity;
+  sparkleCtx.fillStyle = '#fff';
+  sparkleCtx.beginPath();
+  for (let i = 0; i < 4; i++) {
+    const angle = (i / 4) * Math.PI * 2;
+    const inner = size * 0.3;
+    sparkleCtx.lineTo(Math.cos(angle) * size, Math.sin(angle) * size);
+    sparkleCtx.lineTo(Math.cos(angle + Math.PI / 4) * inner, Math.sin(angle + Math.PI / 4) * inner);
+  }
+  sparkleCtx.closePath();
+  sparkleCtx.fill();
+  sparkleCtx.restore();
+}
+
+function animateSparkles() {
+  sparkleCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+  sparkles.forEach(s => {
+    s.opacity += s.twinkleSpeed * s.twinkleDir;
+    if (s.opacity >= 1 || s.opacity <= 0.1) s.twinkleDir *= -1;
+    s.y += s.speedY;
+    s.x += s.speedX;
+    if (s.y < -10) {
+      s.y = sparkleCanvas.height + 10;
+      s.x = randomBetween(0, sparkleCanvas.width);
+    }
+    if (s.shape === 'star') {
+      drawStar(s.x, s.y, s.size, s.opacity);
+    } else {
+      sparkleCtx.save();
+      sparkleCtx.globalAlpha = s.opacity;
+      sparkleCtx.fillStyle = '#fff';
+      sparkleCtx.beginPath();
+      sparkleCtx.arc(s.x, s.y, s.size / 2, 0, Math.PI * 2);
+      sparkleCtx.fill();
+      sparkleCtx.restore();
+    }
+  });
+  requestAnimationFrame(animateSparkles);
+}
+animateSparkles();
+</script>
+</body>
+</html>
