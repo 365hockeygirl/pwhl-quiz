@@ -656,8 +656,13 @@ function showResult() {
     document.getElementById('r-desc').textContent = TEAM_INFO[winner].desc;
 
     const igUrl = TEAM_INFO[winner].instagram;
+    // Remove any existing instagram embed from a previous result
+    const existingIg = document.getElementById('ig-embed');
+    if (existingIg) existingIg.remove();
+
     if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
       const igDiv = document.createElement('div');
+      igDiv.id = 'ig-embed';
       igDiv.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
       igDiv.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
       document.getElementById('r-answers').before(igDiv);
