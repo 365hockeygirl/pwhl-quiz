@@ -328,6 +328,50 @@
   }
 
   .btn-restart:hover { background: rgba(255,255,255,0.1); }
+  
+  /* FLOAT + HALO EFFECT FOR RESULT LOGO */
+
+.result-logo {
+  position: relative;
+  z-index: 1;
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+/* glowing gradient halo behind logo */
+.result-logo::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  z-index: -1;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,102,196,0.6) 0%,
+    rgba(81,112,255,0.45) 40%,
+    rgba(255,255,255,0.15) 65%,
+    transparent 75%
+  );
+
+  filter: blur(12px);
+  animation: haloPulse 5s ease-in-out infinite;
+}
+
+/* floating motion */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* gentle glow pulse */
+@keyframes haloPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+.result-logo {
+  filter: drop-shadow(0 0 18px rgba(255,102,196,0.6));
+}
 
   /* Result screen answer summaries with gradient accents */
   .answer-summary {
