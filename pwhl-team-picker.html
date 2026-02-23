@@ -169,12 +169,44 @@
     display: block;
   }
 
-  .opt:hover { border-color: #fff; background: rgba(255,255,255,0.25); }
+  .opt:hover { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.22); }
 
   .opt.selected {
-    border-color: #fff;
-    background: rgba(255,255,255,0.3);
-    font-weight: 500;
+    border: 2.5px solid transparent;
+    background-clip: padding-box;
+    outline: 2.5px solid #ff66c4;
+    outline-offset: -2px;
+    background: rgba(255, 102, 196, 0.25);
+    font-weight: 600;
+    box-shadow: 0 0 16px rgba(255, 102, 196, 0.5);
+  }
+
+  .opt.has-image.selected .opt-label {
+    color: #fff;
+  }
+
+  /* Checkmark badge on selected image options */
+  .opt.has-image {
+    position: relative;
+  }
+
+  .opt.has-image.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff66c4;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 24px;
+    text-align: center;
   }
 
   .opt .opt-sub {
@@ -554,25 +586,25 @@ const TEAM_INFO = {
 const MEDIA = {
   // Q1: Food images — upload to img/food/ folder
   food: {
-    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/food/ottawa.jpg",
-    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/food/montreal.jpg",
-    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/newyork.jpg",
-    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/food/toronto.jpg",
-    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/food/boston.jpg",
-    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/minnesota.jpg",
-    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/food/vancouver.jpg",
-    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/seattle.jpg"
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/food/ottawa.png",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/food/montreal.png",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/newyork.png",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/food/toronto.png",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/food/boston.png",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/minnesota.png",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/food/vancouver.png",
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/seattle.png"
   },
   // Q2: Superhero images — upload to img/superhero/ folder
   superhero: {
-    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/seattle.jpg",
-    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/ottawa.jpg",
-    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/toronto.jpg",
-    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/vancouver.jpg",
-    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/newyork.jpg",
-    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/boston.jpg",
-    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/montreal.jpg",
-    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/minnesota.jpg"
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/seattle.png",
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/ottawa.png",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/toronto.png",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/vancouver.png",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/newyork.png",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/boston.png",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/montreal.png",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/minnesota.png"
   },
   // Q3: Song Spotify track IDs (the part after /track/ in the Spotify URL)
   songs: {
@@ -587,14 +619,14 @@ const MEDIA = {
   },
   // Q4: Player images — upload to img/players/ folder
   players: {
-    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/seattle.jpg",
-    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/players/vancouver.jpg",
-    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/players/boston.jpg",
-    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/newyork.jpg",
-    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/minnesota.jpg",
-    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/players/montreal.jpg",
-    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/players/ottawa.jpg",
-    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/players/toronto.jpg"
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/seattle.png",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/players/vancouver.png",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/players/boston.png",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/newyork.png",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/minnesota.png",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/players/montreal.png",
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/players/ottawa.png",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/players/toronto.png"
   }
 };
 
@@ -621,8 +653,8 @@ const questions = [
       { label: "Storm ⚡", sub: "", team: "Ottawa Charge" },
       { label: "Supergirl ⭐", sub: "", team: "Toronto Sceptres" },
       { label: "Kate Bishop (Hawkeye) 🏹", sub: "", team: "Vancouver Goldeneyes" },
-      { label: "Spider-Man 🕷️", sub: "", team: "New York Sirens" },
-      { label: "Hulk 💚", sub: "", team: "Boston Fleet" },
+      { label: "Spider-Woman 🕷️", sub: "", team: "New York Sirens" },
+      { label: "She-Hulk 💚", sub: "", team: "Boston Fleet" },
       { label: "Captain Marvel 🦸‍♀️", sub: "", team: "Montreal Victoire" },
       { label: "Thanos 💜", sub: "", team: "Minnesota Frost" }
     ]
@@ -708,12 +740,12 @@ function renderQuestion() {
     const team = o.team;
 
     if (isSongs) {
-      // Spotify embed option
+      // Spotify embed option — use named iframes so we can control them
       const trackId = team ? MEDIA.songs[team] : null;
       const hasTrack = trackId && !trackId.startsWith('PLACEHOLDER');
       btn.className = 'opt' + (hasTrack ? ' has-video' : '') + (isSelected ? ' selected' : '');
       btn.innerHTML = (hasTrack
-        ? `<iframe class="opt-video" src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
+        ? `<iframe class="opt-video" id="spotify-${i}" src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
         : '') +
         `<span class="opt-label">${o.label}</span>` +
         (o.sub ? `<span class="opt-sub">${o.sub}</span>` : '');
@@ -849,6 +881,22 @@ function restart() {
 
 init();
 renderQuestion();
+
+// Stop other Spotify players when one starts playing
+window.addEventListener('message', function(e) {
+  if (!e.origin.includes('spotify.com')) return;
+  try {
+    const data = JSON.parse(e.data);
+    if (data.type === 'playback_update' && !data.payload.isPaused) {
+      // Another track started — reload all iframes that aren't the sender
+      document.querySelectorAll('.opt-video').forEach(function(iframe) {
+        if (iframe.contentWindow !== e.source) {
+          iframe.src = iframe.src;
+        }
+      });
+    }
+  } catch(err) {}
+});
 
 // ---- Sparkle animation ----
 const sparkleCanvas = document.getElementById('sparkle-canvas');
