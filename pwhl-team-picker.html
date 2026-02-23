@@ -16,6 +16,11 @@
     align-items: center;
     justify-content: center;
     padding: 32px 16px;
+    transition: background 1.2s ease;
+  }
+
+  body.result-mode {
+    background: #000;
   }
 
   #sparkle-canvas {
@@ -162,12 +167,18 @@
     margin-right: auto;
   }
 
-  .answer-summary {
-    background: rgba(255,255,255,0.15);
-    border: 1.5px solid rgba(255,255,255,0.3);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
+
+    color: rgba(255,255,255,0.65);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .a-value {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
   }
 
   .a-label {
@@ -184,10 +195,59 @@
     font-weight: 500;
   }
 
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 60px 0;
+  }
+
+  .loading-text {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    color: #fff;
+    line-height: 1.6;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid rgba(255,255,255,0.8);
+    width: 0;
+    margin: 0 auto;
+    animation: typewriter 2s steps(40) 0.3s forwards, blink 0.7s step-end infinite;
+  }
+
+  .loading-sig {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 2.4s forwards;
+  }
+
+  @keyframes typewriter {
+    from { width: 0; }
+    to   { width: 29ch; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .spiral-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
   .btn-subscribe {
     display: inline-block;
-    background: #fff;
-    color: #5170ff;
+    background: linear-gradient(135deg, #5170ff, #ff66c4);
+    color: #fff;
     text-decoration: none;
     padding: 12px 28px;
     border-radius: 10px;
@@ -196,6 +256,8 @@
     font-weight: 500;
     margin-bottom: 10px;
   }
+
+  .btn-subscribe:hover { opacity: 0.85; }
 
   .btn-restart {
     background: transparent;
@@ -206,6 +268,18 @@
     font-size: 14px;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
+  }
+
+  .btn-restart:hover { background: rgba(255,255,255,0.1); }
+
+  /* Result screen answer summaries with gradient accents */
+  .answer-summary {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid transparent;
+    border-image: linear-gradient(135deg, #5170ff, #ff66c4) 1;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
   }
 </style>
 </head>
@@ -223,6 +297,11 @@
     <div class="question-text" id="q-text"></div>
     <div class="options" id="q-options"></div>
     <button class="btn-next" id="btn-next" disabled onclick="next()">Next →</button>
+  </div>
+
+  <div class="loading" id="loading" style="display:none;">
+    <div class="loading-text">finding your perfect team ✨</div>
+    <div class="loading-sig">— 365 Hockey Girl</div>
   </div>
 
   <div class="result" id="result">
@@ -405,43 +484,68 @@ function next() {
 }
 
 function showResult() {
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  let winner = sorted[0][0];
-  // Tiebreaker: use player question (question 4, index 3)
-  if (sorted[0][1] === sorted[1][1]) {
-    winner = questions[3].options[answers[3]].team;
-  }
-
   document.getElementById('quiz-body').style.display = 'none';
-  document.getElementById('result').style.display = 'block';
-  document.getElementById('r-logo').src = LOGOS[winner];
-  document.getElementById('r-team').textContent = winner;
-  document.getElementById('r-desc').textContent = TEAM_INFO[winner].desc;
+  document.getElementById('loading').style.display = 'block';
 
-  const igUrl = TEAM_INFO[winner].instagram;
-  if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
-    const igDiv = document.createElement('div');
-    igDiv.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
-    igDiv.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
-    document.getElementById('r-answers').before(igDiv);
-    if (window.instgrm) { window.instgrm.Embeds.process(); }
-    else {
-      const s = document.createElement('script');
-      s.src = 'https://www.instagram.com/embed.js';
-      s.async = true;
-      document.body.appendChild(s);
+  // Reset typewriter animation so it replays
+  const loadingText = document.querySelector('.loading-text');
+  const loadingSig = document.querySelector('.loading-sig');
+  loadingText.style.animation = 'none';
+  loadingSig.style.animation = 'none';
+  loadingText.offsetHeight; // force reflow
+  loadingText.style.animation = '';
+  loadingSig.style.animation = '';
+
+  // Trigger sparkle rush mode
+  sparkleRush = true;
+
+  setTimeout(function() {
+    // Stop rush, fade to black, show result
+    sparkleRush = false;
+    document.body.classList.add('result-mode');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+
+    const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    let winner = sorted[0][0];
+    // Tiebreaker: use player question (question 4, index 3)
+    if (sorted[0][1] === sorted[1][1]) {
+      winner = questions[3].options[answers[3]].team;
     }
-  }
 
-  document.getElementById('r-answers').innerHTML = questions.map((q, i) => {
-    const chosen = q.options[answers[i]];
-    return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><div class="a-value">' + chosen.label + '</div></div>';
-  }).join('');
+    document.getElementById('r-logo').src = LOGOS[winner];
+    document.getElementById('r-team').textContent = winner;
+    document.getElementById('r-desc').textContent = TEAM_INFO[winner].desc;
+
+    const igUrl = TEAM_INFO[winner].instagram;
+    if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
+      const igDiv = document.createElement('div');
+      igDiv.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
+      igDiv.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
+      document.getElementById('r-answers').before(igDiv);
+      if (window.instgrm) { window.instgrm.Embeds.process(); }
+      else {
+        const s = document.createElement('script');
+        s.src = 'https://www.instagram.com/embed.js';
+        s.async = true;
+        document.body.appendChild(s);
+      }
+    }
+
+    document.getElementById('r-answers').innerHTML = questions.map((q, i) => {
+      if (q.type === 'country') return '';
+      const chosen = q.options[answers[i]];
+      return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><div class="a-value">' + chosen.label + '</div></div>';
+    }).join('');
+
+  }, 4500);
 }
 
 function restart() {
   init();
+  document.body.classList.remove('result-mode');
   document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
   document.getElementById('result').style.display = 'none';
   renderQuestion();
 }
@@ -453,6 +557,7 @@ renderQuestion();
 const sparkleCanvas = document.getElementById('sparkle-canvas');
 const sparkleCtx = sparkleCanvas.getContext('2d');
 let sparkles = [];
+let sparkleRush = false;
 
 function resizeCanvas() {
   sparkleCanvas.width = window.innerWidth;
@@ -463,21 +568,21 @@ window.addEventListener('resize', resizeCanvas);
 
 function randomBetween(a, b) { return a + Math.random() * (b - a); }
 
-function createSparkle() {
+function createSparkle(rush) {
   return {
     x: randomBetween(0, sparkleCanvas.width),
-    y: randomBetween(0, sparkleCanvas.height),
-    size: randomBetween(2, 6),
+    y: rush ? sparkleCanvas.height + 10 : randomBetween(0, sparkleCanvas.height),
+    size: rush ? randomBetween(4, 10) : randomBetween(2, 6),
     opacity: randomBetween(0.4, 1),
-    speedY: randomBetween(-0.4, -1.2),
-    speedX: randomBetween(-0.3, 0.3),
+    speedY: rush ? randomBetween(-8, -20) : randomBetween(-0.4, -1.2),
+    speedX: rush ? randomBetween(-1, 1) : randomBetween(-0.3, 0.3),
     twinkleSpeed: randomBetween(0.01, 0.03),
     twinkleDir: 1,
     shape: Math.random() > 0.5 ? 'star' : 'dot'
   };
 }
 
-for (let i = 0; i < 60; i++) sparkles.push(createSparkle());
+for (let i = 0; i < 60; i++) sparkles.push(createSparkle(false));
 
 function drawStar(x, y, size, opacity) {
   sparkleCtx.save();
@@ -498,14 +603,28 @@ function drawStar(x, y, size, opacity) {
 
 function animateSparkles() {
   sparkleCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+
+  // In rush mode, flood with extra sparkles from the bottom
+  if (sparkleRush && sparkles.length < 300) {
+    for (let i = 0; i < 8; i++) sparkles.push(createSparkle(true));
+  } else if (!sparkleRush && sparkles.length > 60) {
+    sparkles = sparkles.slice(0, 60);
+  }
+
   sparkles.forEach(s => {
     s.opacity += s.twinkleSpeed * s.twinkleDir;
     if (s.opacity >= 1 || s.opacity <= 0.1) s.twinkleDir *= -1;
     s.y += s.speedY;
     s.x += s.speedX;
     if (s.y < -10) {
-      s.y = sparkleCanvas.height + 10;
-      s.x = randomBetween(0, sparkleCanvas.width);
+      if (sparkleRush) {
+        // Remove offscreen rush sparkles
+        s.y = sparkleCanvas.height + 10;
+        s.x = randomBetween(0, sparkleCanvas.width);
+      } else {
+        s.y = sparkleCanvas.height + 10;
+        s.x = randomBetween(0, sparkleCanvas.width);
+      }
     }
     if (s.shape === 'star') {
       drawStar(s.x, s.y, s.size, s.opacity);
