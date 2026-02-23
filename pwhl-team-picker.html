@@ -606,7 +606,18 @@ const MEDIA = {
     "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/montreal.png",
     "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/minnesota.png"
   },
-  // Q3: Song Spotify track IDs (the part after /track/ in the Spotify URL)
+  // Q3: Dream job images — upload to img/jobs/ folder
+  jobs: {
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/seattle.jpg",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/vancouver.jpg",
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/ottawa.jpg",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/montreal.jpg",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/toronto.jpg",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/boston.jpg",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/newyork.jpg",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/minnesota.jpg"
+  },
+  // Q4: Song Spotify track IDs (the part after /track/ in the Spotify URL)
   songs: {
     "Boston Fleet":         "7pu8AhGUxHZSCWTkQ2eb5M",  // Bad Reputation - Joan Jett
     "Toronto Sceptres":     "52HAHV1j93s5B8GoTNI7DJ",  // Oh, Pretty Woman - Roy Orbison
@@ -657,6 +668,20 @@ const questions = [
       { label: "She-Hulk 💚", sub: "", team: "Boston Fleet" },
       { label: "Captain Marvel 🦸‍♀️", sub: "", team: "Montreal Victoire" },
       { label: "Thanos 💜", sub: "", team: "Minnesota Frost" }
+    ]
+  },
+  {
+    text: "Pick your dream job:",
+    mediaKey: "jobs",
+    options: [
+      { label: "Hacker 💻", sub: "", team: "Seattle Torrent" },
+      { label: "Ornithologist 🐦", sub: "", team: "Vancouver Goldeneyes" },
+      { label: "Firefighter 🔥", sub: "", team: "Ottawa Charge" },
+      { label: "Lawyer ⚖️", sub: "", team: "Montreal Victoire" },
+      { label: "Pop star 🎤", sub: "", team: "Toronto Sceptres" },
+      { label: "Sailor ⚓", sub: "", team: "Boston Fleet" },
+      { label: "EMT 🚑", sub: "", team: "New York Sirens" },
+      { label: "Ice cream shop owner 🍦", sub: "", team: "Minnesota Frost" }
     ]
   },
   {
@@ -832,9 +857,9 @@ function showResult() {
 
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
     let winner = sorted[0][0];
-    // Tiebreaker: use player question (question 4, index 3)
+    // Tiebreaker: use player question (question 5, index 4)
     if (sorted[0][1] === sorted[1][1]) {
-      winner = questions[3].options[answers[3]].team;
+      winner = questions[4].options[answers[4]].team;
     }
 
     document.getElementById('r-logo').src = LOGOS[winner];
