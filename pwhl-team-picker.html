@@ -28,6 +28,25 @@
   body.result-mode {
     background: #000;
   }
+  
+.share-buttons {
+  margin-bottom: 24px;
+}
+
+.share-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  margin: 4px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.share-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
 
   #sparkle-canvas {
     position: fixed;
@@ -314,10 +333,22 @@
     <img class="result-logo" id="r-logo" src="" alt="Team logo" />
     <h2 id="r-team"></h2>
     <p id="r-desc"></p>
-    <div id="r-answers" style="text-align:left; margin-bottom:24px;"></div>
+        <!-- SHARE BUTTONS -->
+<div class="share-buttons">
+  <p style="color:#fff; margin-bottom:10px;">Share your result ✨</p>
+
+  <button class="share-btn" onclick="shareBluesky()">🦋 Bluesky</button>
+  <button class="share-btn" onclick="shareTwitter()">🐦 Twitter</button>
+  <button class="share-btn" onclick="shareSMS()">📱 Text</button>
+  <button class="share-btn" onclick="copyLink()">🔗 Copy link</button>
+</div>
     <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/subscribe" target="_blank" rel="noopener">subscribe to my newsletter 💌</a>
+    <br><br>
     <a class="btn-subscribe" href="https://discord.gg/HSZEx8MBnh" target="_blank" rel="noopener">live game chat on discord 👾</a>
     <br><br>
+    
+    <div id="r-answers" style="text-align:left; margin-bottom:24px;"></div>
+
     <button class="btn-restart" onclick="restart()">Start over</button>
   </div>
 </div>
@@ -354,7 +385,7 @@ const questions = [
   {
     text: "Pick a food:",
     options: [
-      { label: "Baseball dessert? ⚾", sub: "", team: "Ottawa Charge" },
+      { label: "Dessert shaped like a baseball? ⚾", sub: "", team: "Ottawa Charge" },
       { label: "Poutine 🍟", sub: "", team: "Montreal Victoire" },
       { label: "Pizza 🍕", sub: "", team: "New York Sirens" },
       { label: "Jamaican beef patty 🫓", sub: "", team: "Toronto Sceptres" },
