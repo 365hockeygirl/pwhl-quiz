@@ -422,6 +422,24 @@
     font-size: 14px;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-restart::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    animation: shimmer 2.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { left: -100%; }
+    100% { left: 200%; }
   }
 
   .btn-restart:hover { background: rgba(255,255,255,0.1); }
@@ -522,10 +540,10 @@
     
     <div id="r-answers" style="text-align:left; margin-bottom:24px;"></div>
 
-    <br><br>
     <button class="btn-restart" onclick="restart()">Start over</button>
     
     <!-- SOCIAL ICONS -->
+<p style="text-align:center; color:rgba(255,255,255,0.7); font-size:13px; margin-top:32px; margin-bottom:12px; letter-spacing:0.5px;">find me on social media!</p>
 <div class="social-footer">
   <a href="https://www.instagram.com/365_hockeygirl/" target="_blank" aria-label="Instagram">
     <!-- Instagram SVG -->
