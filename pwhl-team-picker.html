@@ -679,6 +679,39 @@ function animateSparkles() {
   requestAnimationFrame(animateSparkles);
 }
 animateSparkles();
+
+ /* ===== SHARE FUNCTIONS ===== */
+
+function getShareText() {
+  const team = document.getElementById('r-team').textContent;
+  return `I just took the PWHL Personality Quiz and got ${team}! ✨`;
+}
+
+function getShareURL() {
+  return window.location.href;
+}
+
+function shareTwitter() {
+  const text = encodeURIComponent(getShareText());
+  const url = encodeURIComponent(getShareURL());
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareBluesky() {
+  const text = encodeURIComponent(getShareText() + " " + getShareURL());
+  window.open(`https://bsky.app/intent/compose?text=${text}`, '_blank');
+}
+
+function shareSMS() {
+  const text = encodeURIComponent(getShareText() + " " + getShareURL());
+  window.location.href = `sms:?&body=${text}`;
+}
+
+function copyLink() {
+  const text = getShareText() + " " + getShareURL();
+  navigator.clipboard.writeText(text);
+  alert("Copied to clipboard!");
+}
 </script>
 </body>
 </html>
