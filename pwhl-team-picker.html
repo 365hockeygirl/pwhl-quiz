@@ -117,6 +117,13 @@
     gap: 8px;
   }
 
+  /* 2-column grid for image options */
+  .options.image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
   .opt {
     background: rgba(255,255,255,0.15);
     border: 1.5px solid rgba(255,255,255,0.35);
@@ -130,6 +137,36 @@
     transition: border-color 0.2s, background 0.2s;
     line-height: 1.4;
     width: 100%;
+  }
+
+  /* Image option style */
+  .opt.has-image {
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .opt.has-image .opt-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .opt.has-image .opt-label {
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .opt.has-image .opt-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    padding: 0 10px 8px;
+    display: block;
   }
 
   .opt:hover { border-color: #fff; background: rgba(255,255,255,0.25); }
@@ -146,6 +183,34 @@
     color: rgba(255,255,255,0.65);
     margin-top: 2px;
     font-weight: 400;
+  }
+
+  /* YouTube embed option */
+  .opt.has-video {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .opt.has-video .opt-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    display: block;
+    pointer-events: none; /* clicks go to button, not iframe */
+  }
+
+  .opt.has-video .opt-label {
+    padding: 10px 14px 4px;
+    font-size: 14px;
+  }
+
+  .opt.has-video .opt-sub {
+    padding: 0 14px 10px;
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
   }
 
   .btn-next {
@@ -481,9 +546,62 @@ const TEAM_INFO = {
   "Toronto Sceptres":     { desc: "Emma Maltais?! As a Toronto Sceptres fan, you’re Canada Down — chaotic, fearless, and absolutely the life of the party. But behind the smiles and energy is a relentless competitor who never quits. Are you ready for it? — 365 Hockey Girl 💪", instagram: "https://www.instagram.com/reel/DToZcWnAMK_" }
 };
 
+// ============================================================
+// MEDIA — update image paths and YouTube video IDs here
+// Images should be uploaded to your GitHub repo
+// YouTube video ID is the part after ?v= in the URL
+// ============================================================
+const MEDIA = {
+  // Q1: Food images
+  food: {
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/food-ottawa.jpg",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/food-montreal.jpg",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/food-newyork.jpg",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/food-toronto.jpg",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/food-boston.jpg",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/food-minnesota.jpg",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/food-vancouver.jpg",
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/food-seattle.jpg"
+  },
+  // Q2: Superhero images
+  superhero: {
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/hero-captain-america.jpg",
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/hero-storm.jpg",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/hero-supergirl.jpg",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/hero-kate-bishop.jpg",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/hero-spiderman.jpg",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/hero-hulk.jpg",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/hero-captain-marvel.jpg",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/hero-thanos.jpg"
+  },
+  // Q3: Song YouTube video IDs (the part after ?v= in the YouTube URL)
+  songs: {
+    "Boston Fleet":         "WrmopPLcFiE",  // Bad Reputation - Joan Jett
+    "Toronto Sceptres":     "MVa_sZ-kEoo",  // Pretty Woman - Roy Orbison
+    "Vancouver Goldeneyes": "weRHyjj34ZE",  // Let's Get Loud - Jennifer Lopez
+    "New York Sirens":      "GGXzlmmNfkU",  // Empire State of Mind - Jay-Z
+    "Seattle Torrent":      "aTaCtMoUbU4",  // Misery Business - Paramore
+    "Minnesota Frost":      "HgzGwKwLmgM",  // Don't Stop Me Now - Queen
+    "Montreal Victoire":    "UNaOGMfCCzE",  // C'est la vie - Khaled
+    "Ottawa Charge":        "PLACEHOLDER_OTTAWA_SONG"  // Gonna Celebrate - The Phantoms
+  },
+  // Q4: Player images
+  players: {
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/player-knight.jpg",
+    "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/player-nurse.jpg",
+    "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/player-keller.jpg",
+    "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/player-fillier.jpg",
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/player-heise.jpg",
+    "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/player-poulin.jpg",
+    "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/player-philips.jpg",
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/player-maltais.jpg"
+  }
+};
+
 const questions = [
   {
     text: "Pick a food:",
+    mediaKey: "food",
     options: [
       { label: "Dessert shaped like a baseball? ⚾", sub: "", team: "Ottawa Charge" },
       { label: "Poutine 🍟", sub: "", team: "Montreal Victoire" },
@@ -497,6 +615,7 @@ const questions = [
   },
   {
     text: "Pick a superhero:",
+    mediaKey: "superhero",
     options: [
       { label: "Captain America 🛡️", sub: "", team: "Seattle Torrent" },
       { label: "Storm ⚡", sub: "", team: "Ottawa Charge" },
@@ -510,6 +629,8 @@ const questions = [
   },
   {
     text: "Pick a song:",
+    mediaKey: "songs",
+    type: "songs",
     options: [
       { label: "Bad Reputation 🎸", sub: "Joan Jett", team: "Boston Fleet" },
       { label: "Pretty Woman 🌹", sub: "Roy Orbison", team: "Toronto Sceptres" },
@@ -523,6 +644,7 @@ const questions = [
   },
   {
     text: "Pick a player:",
+    mediaKey: "players",
     options: [
       { label: "Hilary Knight", sub: "", team: "Seattle Torrent" },
       { label: "Sarah Nurse", sub: "", team: "Vancouver Goldeneyes" },
@@ -573,10 +695,42 @@ function renderQuestion() {
 
   const opts = document.getElementById('q-options');
   opts.innerHTML = '';
+
+  const isSongs = q.type === 'songs';
+  const hasImages = q.mediaKey && !isSongs;
+
+  // Set grid class for image questions
+  opts.className = 'options' + (hasImages ? ' image-grid' : '');
+
   q.options.forEach((o, i) => {
     const btn = document.createElement('button');
-    btn.className = 'opt' + (answers[currentQuestion] === i ? ' selected' : '');
-    btn.innerHTML = o.label + (o.sub ? '<span class="opt-sub">' + o.sub + '</span>' : '');
+    const isSelected = answers[currentQuestion] === i;
+    const team = o.team;
+
+    if (isSongs) {
+      // YouTube embed option
+      const videoId = team ? MEDIA.songs[team] : null;
+      const hasVideo = videoId && !videoId.startsWith('PLACEHOLDER');
+      btn.className = 'opt' + (hasVideo ? ' has-video' : '') + (isSelected ? ' selected' : '');
+      btn.innerHTML = (hasVideo
+        ? `<iframe class="opt-video" src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>`
+        : '') +
+        `<span class="opt-label">${o.label}</span>` +
+        (o.sub ? `<span class="opt-sub">${o.sub}</span>` : '');
+    } else if (hasImages) {
+      // Image grid option
+      const imgSrc = MEDIA[q.mediaKey][team];
+      btn.className = 'opt has-image' + (isSelected ? ' selected' : '');
+      btn.innerHTML =
+        `<img class="opt-img" src="${imgSrc}" alt="${o.label}" loading="lazy" onerror="this.style.display='none'">` +
+        `<span class="opt-label">${o.label}</span>` +
+        (o.sub ? `<span class="opt-sub">${o.sub}</span>` : '');
+    } else {
+      // Plain text option (country question)
+      btn.className = 'opt' + (isSelected ? ' selected' : '');
+      btn.innerHTML = o.label + (o.sub ? '<span class="opt-sub">' + o.sub + '</span>' : '');
+    }
+
     btn.onclick = () => selectOption(i);
     opts.appendChild(btn);
   });
