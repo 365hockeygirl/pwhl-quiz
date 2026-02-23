@@ -185,7 +185,7 @@
     font-weight: 400;
   }
 
-  /* YouTube embed option */
+  /* Spotify embed option */
   .opt.has-video {
     padding: 0;
     overflow: hidden;
@@ -195,10 +195,10 @@
 
   .opt.has-video .opt-video {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 80px;
     border: none;
     display: block;
-    pointer-events: none; /* clicks go to button, not iframe */
+    border-radius: 8px 8px 0 0;
   }
 
   .opt.has-video .opt-label {
@@ -548,7 +548,7 @@ const TEAM_INFO = {
 
 // ============================================================
 // MEDIA — update image paths and YouTube video IDs here
-// Images should be uploaded to repo
+// Images should be uploaded to your GitHub repo
 // YouTube video ID is the part after ?v= in the URL
 // ============================================================
 const MEDIA = {
@@ -574,16 +574,16 @@ const MEDIA = {
     "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/hero-captain-marvel.jpg",
     "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/hero-thanos.jpg"
   },
-  // Q3: Song YouTube video IDs (the part after ?v= in the YouTube URL)
+  // Q3: Song Spotify track IDs (the part after /track/ in the Spotify URL)
   songs: {
-    "Boston Fleet":         "WrmopPLcFiE",  // Bad Reputation - Joan Jett
-    "Toronto Sceptres":     "MVa_sZ-kEoo",  // Pretty Woman - Roy Orbison
-    "Vancouver Goldeneyes": "weRHyjj34ZE",  // Let's Get Loud - Jennifer Lopez
-    "New York Sirens":      "GGXzlmmNfkU",  // Empire State of Mind - Jay-Z
-    "Seattle Torrent":      "aTaCtMoUbU4",  // Misery Business - Paramore
-    "Minnesota Frost":      "HgzGwKwLmgM",  // Don't Stop Me Now - Queen
-    "Montreal Victoire":    "UNaOGMfCCzE",  // C'est la vie - Khaled
-    "Ottawa Charge":        "ckpLgZWddCc"  // Gonna Celebrate - The Phantoms
+    "Boston Fleet":         "7pu8AhGUxHZSCWTkQ2eb5M",  // Bad Reputation - Joan Jett
+    "Toronto Sceptres":     "52HAHV1j93s5B8GoTNI7DJ",  // Oh, Pretty Woman - Roy Orbison
+    "Vancouver Goldeneyes": "42nSaPdT6g3ZIMHmKLlP2p",  // Let's Get Loud - Jennifer Lopez
+    "New York Sirens":      "2igwFfvr1OAGX9SKDCPBwO",  // Empire State of Mind - Jay-Z ft. Alicia Keys
+    "Seattle Torrent":      "6SpLc7EXZIPpy0sVko0aoU",  // Misery Business - Paramore
+    "Minnesota Frost":      "7hQJA50XrCWABAu5v6QZ4i",  // Don't Stop Me Now - Queen
+    "Montreal Victoire":    "5iqrbO0fhuLMiy9tYGanv6",  // C'est la vie - Khaled
+    "Ottawa Charge":        "65wPd1hhDlTzg3ODzjkWPw"   // Gonna Celebrate - The Phantoms
   },
   // Q4: Player images
   players: {
@@ -708,12 +708,12 @@ function renderQuestion() {
     const team = o.team;
 
     if (isSongs) {
-      // YouTube embed option
-      const videoId = team ? MEDIA.songs[team] : null;
-      const hasVideo = videoId && !videoId.startsWith('PLACEHOLDER');
-      btn.className = 'opt' + (hasVideo ? ' has-video' : '') + (isSelected ? ' selected' : '');
-      btn.innerHTML = (hasVideo
-        ? `<iframe class="opt-video" src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>`
+      // Spotify embed option
+      const trackId = team ? MEDIA.songs[team] : null;
+      const hasTrack = trackId && !trackId.startsWith('PLACEHOLDER');
+      btn.className = 'opt' + (hasTrack ? ' has-video' : '') + (isSelected ? ' selected' : '');
+      btn.innerHTML = (hasTrack
+        ? `<iframe class="opt-video" src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`
         : '') +
         `<span class="opt-label">${o.label}</span>` +
         (o.sub ? `<span class="opt-sub">${o.sub}</span>` : '');
