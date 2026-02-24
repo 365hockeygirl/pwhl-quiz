@@ -262,7 +262,97 @@
 
   .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
   
-  /* SOCIAL FOOTER */
+  /* ---- TITLE SCREEN ---- */
+  #title-screen {
+    text-align: center;
+  }
+
+  body.title-mode {
+    background: #000;
+  }
+
+  .title-screen-h1 {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .title-logo-img {
+    display: block;
+    margin: 0 auto 32px;
+    height: 60px;
+    width: auto;
+  }
+
+  .team-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 32px auto;
+    max-width: 420px;
+  }
+
+  .team-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .team-logo-item img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    animation: titleFloat var(--float-duration) ease-in-out infinite;
+    animation-delay: var(--float-delay);
+    filter: drop-shadow(0 0 10px var(--glow-color)) drop-shadow(0 0 20px var(--glow-color));
+  }
+
+  @keyframes titleFloat {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  .btn-take-quiz {
+    display: inline-block;
+    background: linear-gradient(135deg, #5170ff, #ff66c4);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.2s;
+  }
+
+  .btn-take-quiz::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  .btn-take-quiz:hover { opacity: 0.88; }
+
+  /* Zoom-in transition when entering quiz */
+  @keyframes zoomIn {
+    0%   { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+
+  .zoom-in {
+    animation: zoomIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 .social-footer {
   display: flex;
   justify-content: center;
@@ -482,20 +572,32 @@
 @keyframes haloPulse {
   0%, 100% { opacity: 0.7; transform: scale(1); }
   50%      { opacity: 1;   transform: scale(1.08); }
-}
-
-.result-logo {
-  filter: drop-shadow(0 0 18px rgba(255,102,196,0.6));
-}
 
   /* Result screen answer summaries with gradient accents */
   .answer-summary {
-    background: rgba(255,255,255,0.07);
-    border: 1.5px solid transparent;
-    border-image: linear-gradient(135deg, #5170ff, #ff66c4) 1;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.3);
     border-radius: 10px;
     padding: 14px 16px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .answer-summary:last-child { margin-bottom: 0; }
+
+  #r-answers {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .answers-title {
+    font-family: 'Lora', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: #fff !important;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
   }
 </style>
 </head>
@@ -504,8 +606,19 @@
 <canvas id="sparkle-canvas"></canvas>
 
 <div class="quiz">
-  <h1>PWHL Team Personality Test✨</h1>
-  <img src="https://365hockeygirl.github.io/pwhl-quiz/365HGWhite.png" alt="365 Hockey Girl" style="display:block; margin: 0 auto 28px; height: 60px; width: auto;" />
+
+  <!-- TITLE SCREEN -->
+  <div id="title-screen">
+    <h1 class="title-screen-h1">PWHL Team Personality Test✨</h1>
+    <img src="https://365hockeygirl.github.io/pwhl-quiz/365HGWhite.png" alt="365 Hockey Girl" class="title-logo-img" />
+    <div class="team-logo-grid" id="title-logo-grid"></div>
+    <button class="btn-take-quiz" onclick="enterQuiz()">take the quiz ✨</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-wrapper" style="display:none;">
+    <h1>PWHL Team Personality Test✨</h1>
+    <img src="https://365hockeygirl.github.io/pwhl-quiz/365HGWhite.png" alt="365 Hockey Girl" style="display:block; margin: 0 auto 28px; height: 60px; width: auto;" />
 
   <div id="quiz-body">
     <div class="progress" id="progress"></div>
@@ -538,7 +651,12 @@
     <a class="btn-subscribe" href="https://discord.gg/HSZEx8MBnh" target="_blank" rel="noopener">live game chat on discord 👾</a>
     <br><br>
     
-    <div id="r-answers" style="text-align:left; margin-bottom:24px;"></div>
+    <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto;position:relative;">
+      <div style="position:absolute;inset:0;border-radius:12px;padding:1px;background:linear-gradient(135deg,#5170ff,#ff66c4);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"></div>
+      <div class="answers-title" style="color:#fff !important;">Your answers:</div>
+      <div id="r-answers"></div>
+    </div>
+    <div id="ig-embed-wrapper"></div>
 
     <button class="btn-restart" onclick="restart()">Start over</button>
     
@@ -565,9 +683,9 @@
       <path d="M23 7s-.2-1.6-.8-2.3c-.7-.9-1.5-.9-1.9-1C17.7 3.5 12 3.5 12 3.5h0s-5.7 0-8.3.2c-.4 0-1.2.1-1.9 1C1.2 5.4 1 7 1 7S.8 8.9.8 10.7v1.6C.8 14 .9 15.9.9 15.9s.2 1.6.8 2.3c.7.9 1.6.9 2 .9 1.5.1 6.3.2 8.3.2s6.8 0 8.3-.2c.4 0 1.2-.1 1.9-1 .6-.7.8-2.3.8-2.3s.1-1.9.1-3.7v-1.6C23.2 8.9 23 7 23 7zM9.8 14.8V8.8l5.5 3-5.5 3z"/>
     </svg>
   </a>
-</div>
-  </div>
-</div>
+</div><!-- end social footer -->
+  </div><!-- end quiz-wrapper -->
+</div><!-- end quiz -->
 
 <script>
 const TEAMS = [
@@ -882,32 +1000,33 @@ function showResult() {
     }
 
     document.getElementById('r-logo').src = LOGOS[winner];
+    document.getElementById('r-logo').style.filter = 'drop-shadow(0 0 18px ' + GLOW_COLORS[winner] + ') drop-shadow(0 0 32px ' + GLOW_COLORS[winner] + ')';
     document.getElementById('r-team').textContent = winner;
     document.getElementById('r-desc').textContent = TEAM_INFO[winner].desc;
 
     const igUrl = TEAM_INFO[winner].instagram;
-    // Remove any existing instagram embed from a previous result
-    const existingIg = document.getElementById('ig-embed');
-    if (existingIg) existingIg.remove();
+    const igWrapper = document.getElementById('ig-embed-wrapper');
+    igWrapper.innerHTML = '';
 
     if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
-      const igDiv = document.createElement('div');
-      igDiv.id = 'ig-embed';
-      igDiv.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
-      igDiv.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
-      document.getElementById('r-answers').before(igDiv);
-      if (window.instgrm) { window.instgrm.Embeds.process(); }
-      else {
-        const s = document.createElement('script');
-        s.src = 'https://www.instagram.com/embed.js';
-        s.async = true;
-        document.body.appendChild(s);
-      }
+      igWrapper.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
+      igWrapper.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
+      // Remove and re-add embed.js to force reprocess
+      const oldScript = document.getElementById('ig-script');
+      if (oldScript) oldScript.remove();
+      const s = document.createElement('script');
+      s.id = 'ig-script';
+      s.src = 'https://www.instagram.com/embed.js';
+      s.async = true;
+      document.body.appendChild(s);
+    } else {
+      igWrapper.style.cssText = '';
     }
 
     document.getElementById('r-answers').innerHTML = questions.map((q, i) => {
-      if (q.type === 'country') return '';
+      if (answers[i] === undefined) return '';
       const chosen = q.options[answers[i]];
+      if (!chosen) return '';
       return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><div class="a-value">' + chosen.label + '</div></div>';
     }).join('');
 
@@ -917,10 +1036,66 @@ function showResult() {
 function restart() {
   init();
   document.body.classList.remove('result-mode');
+  document.body.classList.add('title-mode');
   document.getElementById('quiz-body').style.display = 'block';
   document.getElementById('loading').style.display = 'none';
   document.getElementById('result').style.display = 'none';
-  renderQuestion();
+  document.getElementById('quiz-wrapper').style.display = 'none';
+  const titleScreen = document.getElementById('title-screen');
+  titleScreen.style.display = 'block';
+  titleScreen.style.opacity = '1';
+  titleScreen.style.transform = 'scale(1)';
+}
+
+// ---- Title screen ----
+const GLOW_COLORS = {
+  "Seattle Torrent":      "#00bcd4",
+  "Vancouver Goldeneyes": "#f9c80e",
+  "Boston Fleet":         "#4caf50",
+  "New York Sirens":      "#ff6600",
+  "Minnesota Frost":      "#9c27b0",
+  "Montreal Victoire":    "#3f51b5",
+  "Ottawa Charge":        "#ffe600",
+  "Toronto Sceptres":     "#2196f3"
+};
+
+// Build logo grid on title screen
+const grid = document.getElementById('title-logo-grid');
+Object.entries(LOGOS).forEach(function([team, url], i) {
+  const item = document.createElement('div');
+  item.className = 'team-logo-item';
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = team;
+  img.style.setProperty('--float-duration', (3 + (i % 4) * 0.5) + 's');
+  img.style.setProperty('--float-delay', (i * 0.2) + 's');
+  img.style.setProperty('--glow-color', GLOW_COLORS[team] || '#fff');
+  item.appendChild(img);
+  grid.appendChild(item);
+});
+
+// Set black background for title screen
+document.body.classList.add('title-mode');
+
+function enterQuiz() {
+  const titleScreen = document.getElementById('title-screen');
+  const quizWrapper = document.getElementById('quiz-wrapper');
+
+  // Fade out title screen
+  titleScreen.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  titleScreen.style.opacity = '0';
+  titleScreen.style.transform = 'scale(1.08)';
+
+  setTimeout(function() {
+    titleScreen.style.display = 'none';
+    // Switch to gradient background
+    document.body.classList.remove('title-mode');
+    // Show quiz with zoom-in effect
+    quizWrapper.style.display = 'block';
+    quizWrapper.classList.add('zoom-in');
+    init();
+    renderQuestion();
+  }, 400);
 }
 
 init();
