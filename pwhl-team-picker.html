@@ -454,6 +454,7 @@
     white-space: nowrap;
     border-right: 2px solid rgba(255,255,255,0.8);
     width: 0;
+    max-width: calc(100vw - 48px);
     margin: 0 auto;
     animation: typewriter 2s steps(40) 0.3s forwards, blink 0.7s step-end infinite;
   }
@@ -471,6 +472,16 @@
   @keyframes typewriter {
     from { width: 0; }
     to   { width: 29ch; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  @media (max-width: 420px) {
+    .loading-text {
+      font-size: 18px;
+    }
   }
 
   @keyframes blink {
@@ -651,7 +662,7 @@
   <button class="share-btn" onclick="shareSMS()">📱 Text</button>
   <button class="share-btn" onclick="copyLink()">🔗 Copy link</button>
 </div>
-    <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/subscribe" target="_blank" rel="noopener">subscribe to my newsletter 💌</a>
+    <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/subscribe?utm_source=pwhl-quiz&utm_medium=quiz&utm_campaign=team-picker" target="_blank" rel="noopener">subscribe to my newsletter 💌</a>
     <br><br>
     <a class="btn-subscribe" href="https://discord.gg/HSZEx8MBnh" target="_blank" rel="noopener">live game chat on discord 👾</a>
     <br><br>
