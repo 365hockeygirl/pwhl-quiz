@@ -573,6 +573,8 @@
   0%, 100% { opacity: 0.7; transform: scale(1); }
   50%      { opacity: 1;   transform: scale(1.08); }
 
+}
+
   /* Result screen answer summaries with gradient accents */
   .answer-summary {
     background: rgba(255,255,255,0.08);
@@ -1029,7 +1031,7 @@ function showResult() {
       if (answers[i] === undefined) return '';
       const chosen = q.options[answers[i]];
       if (!chosen) return '';
-      return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><br><br><div class="a-value">' + chosen.label + '</div></div>';
+      return '<div class="answer-summary"><div class="a-label">' + q.text + '</div><div class="a-value">' + chosen.label + '</div></div>';
     }).join('');
 
   }, 3500);
