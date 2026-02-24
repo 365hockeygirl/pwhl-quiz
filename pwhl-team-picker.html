@@ -1000,9 +1000,13 @@ function showResult() {
 
     const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
     let winner = sorted[0][0];
-    // Tiebreaker: use player question (question 5, index 4)
-    if (sorted[0][1] === sorted[1][1]) {
-      winner = questions[4].options[answers[4]].team;
+    const topScore = sorted[0][1];
+    const tied = sorted.filter(([team, score]) => score === topScore).map(([team]) => team);
+    if (tied.length > 1) {
+      const playerTeam = questions[4].options[answers[4]].team;
+      if (tied.includes(playerTeam)) {
+        winner = playerTeam;
+      }
     }
 
     document.getElementById('r-logo').src = LOGOS[winner];
