@@ -656,12 +656,13 @@
     <a class="btn-subscribe" href="https://discord.gg/HSZEx8MBnh" target="_blank" rel="noopener">live game chat on discord 👾</a>
     <br><br>
     
+    <div id="ig-embed-wrapper"></div>
+
     <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto;position:relative;">
       <div style="position:absolute;inset:0;border-radius:12px;padding:1px;background:linear-gradient(135deg,#5170ff,#ff66c4);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;"></div>
       <div class="answers-title" style="color:#fff !important;">Your answers:</div>
       <div id="r-answers"></div>
     </div>
-    <div id="ig-embed-wrapper"></div>
 
     <button class="btn-restart" onclick="restart()">Start over</button>
     
@@ -1012,20 +1013,26 @@ function showResult() {
     const igUrl = TEAM_INFO[winner].instagram;
     const igWrapper = document.getElementById('ig-embed-wrapper');
     igWrapper.innerHTML = '';
+    igWrapper.style.cssText = '';
 
     if (igUrl && igUrl.indexOf('PLACEHOLDER') === -1) {
       igWrapper.style.cssText = 'margin:20px auto 24px;max-width:400px;border-radius:10px;overflow:hidden;background:#fff;';
       igWrapper.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + igUrl + '" data-instgrm-version="14" style="width:100%;margin:0;"></blockquote>';
-      // Remove and re-add embed.js to force reprocess
+      // Always remove and re-add embed.js to force a fresh process
       const oldScript = document.getElementById('ig-script');
       if (oldScript) oldScript.remove();
-      const s = document.createElement('script');
-      s.id = 'ig-script';
-      s.src = 'https://www.instagram.com/embed.js';
-      s.async = true;
-      document.body.appendChild(s);
-    } else {
-      igWrapper.style.cssText = '';
+      // Small delay to let blockquote render into DOM first
+      setTimeout(function() {
+        if (window.instgrm) {
+          window.instgrm.Embeds.process();
+        } else {
+          const s = document.createElement('script');
+          s.id = 'ig-script';
+          s.src = 'https://www.instagram.com/embed.js';
+          s.async = true;
+          document.body.appendChild(s);
+        }
+      }, 100);
     }
 
     document.getElementById('r-answers').innerHTML = questions.map((q, i) => {
