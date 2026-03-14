@@ -514,6 +514,40 @@
 
   .btn-subscribe:hover { opacity: 0.85; }
 
+  #zine-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #00e5ff, #00e676, #00e5ff);
+    background-size: 200% 200%;
+    animation: quizFlash 2s ease-in-out infinite, zineFloat 3s ease-in-out infinite;
+    color: #000;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    margin-top: 32px;
+    filter: drop-shadow(0 0 8px rgba(0,229,118,0.8)) drop-shadow(0 0 18px rgba(0,229,255,0.5));
+  }
+
+  @keyframes quizFlash {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes zineFloat {
+    0%   { transform: translate(0px, 0px); }
+    25%  { transform: translate(2px, -4px); }
+    50%  { transform: translate(0px, -6px); }
+    75%  { transform: translate(-2px, -4px); }
+    100% { transform: translate(0px, 0px); }
+  }
+
+  #zine-link:hover { opacity: 0.88; }
+
   .btn-restart {
     background: transparent;
     border: 1.5px solid rgba(255,255,255,0.6);
@@ -662,9 +696,14 @@
   <button class="share-btn" onclick="shareSMS()">📱 Text</button>
   <button class="share-btn" onclick="copyLink()">🔗 Copy link</button>
 </div>
-    <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/subscribe?utm_source=pwhl-quiz&utm_medium=quiz&utm_campaign=team-picker" target="_blank" rel="noopener">subscribe to my newsletter 💌</a>
+    <div style="width:100%; text-align:center;">
+      <p style="color:rgba(255,255,255,0.85); font-size:14px; margin: 16px 0 8px; padding: 0 16px; display:inline-block;">Still need help picking a team? Read my complete guide in my newsletter!</p>
+    </div>
+    <a class="btn-subscribe" href="https://365hockeygirl.beehiiv.com/p/which-pwhl-team-should-you-pick-the-complete-guide" target="_blank" rel="noopener">PWHL Team Guide! ✨</a>
     <br><br>
     <a class="btn-subscribe" href="https://discord.gg/HSZEx8MBnh" target="_blank" rel="noopener">live game chat on discord 👾</a>
+    <br>
+    <a href="https://365hockeygirl.github.io/pwhl-rules-zine/zine.html" target="_blank" rel="noopener" id="zine-link">✂️ PWHL rules zine!</a>
     <br><br>
     
     <div id="ig-embed-wrapper"></div>
