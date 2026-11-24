@@ -747,7 +747,9 @@
 <script>
 const TEAMS = [
   "Seattle Torrent","Vancouver Goldeneyes","Boston Fleet","New York Sirens",
-  "Minnesota Frost","Montreal Victoire","Ottawa Charge","Toronto Sceptres"
+  "Minnesota Frost","Montreal Victoire","Ottawa Charge","Toronto Sceptres",
+  // Expansion teams
+  "Detroit Clutch","Hamilton Havoc","Las Vegas Vanguards","San Jose Sea Lions"
 ];
 
 const LOGOS = {
@@ -758,7 +760,12 @@ const LOGOS = {
   "Minnesota Frost":      "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_96/q_auto/f_auto/PWHLMinnesotaFrost-Logo-Primary_qgglsu",
   "Montreal Victoire":    "https://res.cloudinary.com/pwhl-low/image/upload/PWHL_Montreal_Victoire_Emblem_Primary-cropped_ptiglw",
   "Ottawa Charge":        "https://res.cloudinary.com/pwhl-low/image/upload/c_auto,h_144/q_auto/f_auto/OttawaChargeLogo_umto9w",
-  "Toronto Sceptres":     "https://res.cloudinary.com/pwhl-low/image/upload/PWHL_Toronto_Sceptres_Emblem_Primary_qohlxz"
+  "Toronto Sceptres":     "https://res.cloudinary.com/pwhl-low/image/upload/PWHL_Toronto_Sceptres_Emblem_Primary_qohlxz",
+  // TODO: replace each placeholder with the real logo URL
+  "Detroit Clutch":        "PLACEHOLDER_DETROIT_LOGO_URL",
+  "Hamilton Havoc":        "PLACEHOLDER_HAMILTON_LOGO_URL",
+  "Las Vegas Vanguards":   "PLACEHOLDER_LAS_VEGAS_LOGO_URL",
+  "San Jose Sea Lions":    "PLACEHOLDER_SAN_JOSE_LOGO_URL"
 };
 
 const TEAM_INFO = {
@@ -769,7 +776,13 @@ const TEAM_INFO = {
   "Minnesota Frost":      { desc: "As a Minnesota Frost fan, all you do is win. As the only team to ever win the Walter Cup, the rest of the league might view you as an enemy, but Frost fans take care of each other. You love cheering for black cat golden retriever duo Taylor Heise and Grace Zumwinkle. FEEL THE FROST 💜 — 365 Hockey Girl", instagram: "https://www.instagram.com/p/DKIyn3AsXxG/?img_index=1&igsh=YW96am9td2RwNWNk" },
   "Montreal Victoire":    { desc: "As a Montreal Victoire fan, your hero is Captain Clutch — the GOAT, Marie-Philip Poulin. You love watching Poulin and her wife Laura Stacey light it up together, fueled by arena poutine and the electric crowd at Place Bell. You have the best logo in the league. Victoire is totally winning the Cup this year.🏆 — 365 Hockey Girl 💖", instagram: "https://www.instagram.com/p/DTG3MEBgSff" },
   "Ottawa Charge":        { desc: "As an Ottawa Charge fan, you know coach Carla Was Right About Everything. You stan goalie Gwyn Philips. You celebrate women in uniform. Your crowd always has the best vibes, and you’ll support this team through thick and thin. Welcome to the family! — 365 Hockey Girl ⚡", instagram: "https://www.instagram.com/reel/DSeAALEjXBI" },
-  "Toronto Sceptres":     { desc: "Emma Maltais?! As a Toronto Sceptres fan, you’re Canada Down — chaotic, fearless, and absolutely the life of the party. But behind the smiles and energy is a relentless competitor who never quits. Are you ready for it? — 365 Hockey Girl 💪", instagram: "https://www.instagram.com/reel/DToZcWnAMK_" }
+  "Toronto Sceptres":     { desc: "Emma Maltais?! As a Toronto Sceptres fan, you’re Canada Down — chaotic, fearless, and absolutely the life of the party. But behind the smiles and energy is a relentless competitor who never quits. Are you ready for it? — 365 Hockey Girl 💪", instagram: "https://www.instagram.com/reel/DToZcWnAMK_" },
+  // TODO: write the result description for each expansion team
+  // TODO: add each team's Instagram post/reel URL (leave "PLACEHOLDER" to skip the embed)
+  "Detroit Clutch":        { desc: "TODO: Detroit Clutch result description — 365 Hockey Girl", instagram: "PLACEHOLDER" },
+  "Hamilton Havoc":        { desc: "TODO: Hamilton Havoc result description — 365 Hockey Girl", instagram: "PLACEHOLDER" },
+  "Las Vegas Vanguards":   { desc: "TODO: Las Vegas Vanguards result description — 365 Hockey Girl", instagram: "PLACEHOLDER" },
+  "San Jose Sea Lions":    { desc: "TODO: San Jose Sea Lions result description — 365 Hockey Girl", instagram: "PLACEHOLDER" }
 };
 
 // ============================================================
@@ -787,7 +800,12 @@ const MEDIA = {
     "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/food/boston.png",
     "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/minnesota.png",
     "Vancouver Goldeneyes": "https://365hockeygirl.github.io/pwhl-quiz/img/food/vancouver.png",
-    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/seattle.png"
+    "Seattle Torrent":      "https://365hockeygirl.github.io/pwhl-quiz/img/food/seattle.png",
+    // TODO: upload food images to img/food/ (filenames below), then delete this comment
+    "Detroit Clutch":        "https://365hockeygirl.github.io/pwhl-quiz/img/food/detroit.png",
+    "Hamilton Havoc":        "https://365hockeygirl.github.io/pwhl-quiz/img/food/hamilton.png",
+    "Las Vegas Vanguards":   "https://365hockeygirl.github.io/pwhl-quiz/img/food/lasvegas.png",
+    "San Jose Sea Lions":    "https://365hockeygirl.github.io/pwhl-quiz/img/food/sanjose.png"
   },
   // Q2: Superhero images — upload to img/superhero/ folder
   superhero: {
@@ -798,7 +816,12 @@ const MEDIA = {
     "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/newyork.png",
     "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/boston.png",
     "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/montreal.png",
-    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/minnesota.png"
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/minnesota.png",
+    // TODO: upload superhero images to img/superhero/ (filenames below), then delete this comment
+    "Detroit Clutch":        "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/detroit.png",
+    "Hamilton Havoc":        "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/hamilton.png",
+    "Las Vegas Vanguards":   "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/lasvegas.png",
+    "San Jose Sea Lions":    "https://365hockeygirl.github.io/pwhl-quiz/img/superhero/sanjose.png"
   },
   // Q3: Dream job images — upload to img/jobs/ folder
   jobs: {
@@ -809,7 +832,12 @@ const MEDIA = {
     "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/toronto.png",
     "Boston Fleet":         "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/boston.png",
     "New York Sirens":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/newyork.png",
-    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/minnesota.png"
+    "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/minnesota.png",
+    // TODO: upload job images to img/jobs/ (filenames below), then delete this comment
+    "Detroit Clutch":        "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/detroit.png",
+    "Hamilton Havoc":        "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/hamilton.png",
+    "Las Vegas Vanguards":   "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/lasvegas.png",
+    "San Jose Sea Lions":    "https://365hockeygirl.github.io/pwhl-quiz/img/jobs/sanjose.png"
   },
   // Q4: Song Spotify track IDs (the part after /track/ in the Spotify URL)
   songs: {
@@ -820,7 +848,12 @@ const MEDIA = {
     "Seattle Torrent":      "6SpLc7EXZIPpy0sVko0aoU",  // Misery Business - Paramore
     "Minnesota Frost":      "7hQJA50XrCWABAu5v6QZ4i",  // Don't Stop Me Now - Queen
     "Montreal Victoire":    "5iqrbO0fhuLMiy9tYGanv6",  // C'est la vie - Khaled
-    "Ottawa Charge":        "65wPd1hhDlTzg3ODzjkWPw"   // Gonna Celebrate - The Phantoms
+    "Ottawa Charge":        "65wPd1hhDlTzg3ODzjkWPw",  // Gonna Celebrate - The Phantoms
+    // TODO: add Spotify track IDs (the part after /track/ in the URL) and a comment with song - artist
+    "Detroit Clutch":        "PLACEHOLDER_DETROIT_TRACK_ID",
+    "Hamilton Havoc":        "PLACEHOLDER_HAMILTON_TRACK_ID",
+    "Las Vegas Vanguards":   "PLACEHOLDER_LAS_VEGAS_TRACK_ID",
+    "San Jose Sea Lions":    "PLACEHOLDER_SAN_JOSE_TRACK_ID"
   },
   // Q4: Player images — upload to img/players/ folder
   players: {
@@ -831,7 +864,12 @@ const MEDIA = {
     "Minnesota Frost":      "https://365hockeygirl.github.io/pwhl-quiz/img/players/minnesota.png",
     "Montreal Victoire":    "https://365hockeygirl.github.io/pwhl-quiz/img/players/montreal.png",
     "Ottawa Charge":        "https://365hockeygirl.github.io/pwhl-quiz/img/players/ottawa.png",
-    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/players/toronto.png"
+    "Toronto Sceptres":     "https://365hockeygirl.github.io/pwhl-quiz/img/players/toronto.png",
+    // TODO: upload player images to img/players/ (filenames below), then delete this comment
+    "Detroit Clutch":        "https://365hockeygirl.github.io/pwhl-quiz/img/players/detroit.png",
+    "Hamilton Havoc":        "https://365hockeygirl.github.io/pwhl-quiz/img/players/hamilton.png",
+    "Las Vegas Vanguards":   "https://365hockeygirl.github.io/pwhl-quiz/img/players/lasvegas.png",
+    "San Jose Sea Lions":    "https://365hockeygirl.github.io/pwhl-quiz/img/players/sanjose.png"
   }
 };
 
@@ -847,7 +885,12 @@ const questions = [
       { label: "Caesar salad 🥗", sub: "", team: "Boston Fleet" },
       { label: "Hot dish 🥘", sub: "", team: "Minnesota Frost" },
       { label: "Japadog 🌭", sub: "", team: "Vancouver Goldeneyes" },
-      { label: "Dick's Drive-In 🍔", sub: "", team: "Seattle Torrent" }
+      { label: "Dick's Drive-In 🍔", sub: "", team: "Seattle Torrent" },
+      // TODO: fill in food label (with emoji) for each expansion team
+      { label: "TODO: Detroit food", sub: "", team: "Detroit Clutch" },
+      { label: "TODO: Hamilton food", sub: "", team: "Hamilton Havoc" },
+      { label: "TODO: Las Vegas food", sub: "", team: "Las Vegas Vanguards" },
+      { label: "TODO: San Jose food", sub: "", team: "San Jose Sea Lions" }
     ]
   },
   {
@@ -861,7 +904,12 @@ const questions = [
       { label: "Spider-Woman 🕷️", sub: "", team: "New York Sirens" },
       { label: "She-Hulk 💚", sub: "", team: "Boston Fleet" },
       { label: "Captain Marvel 🦸‍♀️", sub: "", team: "Montreal Victoire" },
-      { label: "Thanos 💜", sub: "", team: "Minnesota Frost" }
+      { label: "Thanos 💜", sub: "", team: "Minnesota Frost" },
+      // TODO: fill in superhero name (with emoji) for each expansion team
+      { label: "TODO: Detroit superhero", sub: "", team: "Detroit Clutch" },
+      { label: "TODO: Hamilton superhero", sub: "", team: "Hamilton Havoc" },
+      { label: "TODO: Las Vegas superhero", sub: "", team: "Las Vegas Vanguards" },
+      { label: "TODO: San Jose superhero", sub: "", team: "San Jose Sea Lions" }
     ]
   },
   {
@@ -875,7 +923,12 @@ const questions = [
       { label: "Firefighter 🔥", sub: "", team: "Ottawa Charge" },
       { label: "Lawyer ⚖️", sub: "", team: "Montreal Victoire" },
       { label: "Hacker 💻", sub: "", team: "Seattle Torrent" },
-      { label: "EMT 🚑", sub: "", team: "New York Sirens" }
+      { label: "EMT 🚑", sub: "", team: "New York Sirens" },
+      // TODO: fill in dream job (with emoji) for each expansion team
+      { label: "TODO: Detroit job", sub: "", team: "Detroit Clutch" },
+      { label: "TODO: Hamilton job", sub: "", team: "Hamilton Havoc" },
+      { label: "TODO: Las Vegas job", sub: "", team: "Las Vegas Vanguards" },
+      { label: "TODO: San Jose job", sub: "", team: "San Jose Sea Lions" }
     ]
   },
   {
@@ -890,7 +943,12 @@ const questions = [
       { label: "Misery Business 🖤", sub: "Paramore", team: "Seattle Torrent" },
       { label: "Don't Stop Me Now 🚀", sub: "Queen", team: "Minnesota Frost" },
       { label: "C'est la vie 🕺", sub: "Khaled", team: "Montreal Victoire" },
-      { label: "Gonna Celebrate 🥳", sub: "The Phantoms", team: "Ottawa Charge" }
+      { label: "Gonna Celebrate 🥳", sub: "The Phantoms", team: "Ottawa Charge" },
+      // TODO: fill in song title (with emoji) and artist for each expansion team
+      { label: "TODO: Detroit song", sub: "TODO: artist", team: "Detroit Clutch" },
+      { label: "TODO: Hamilton song", sub: "TODO: artist", team: "Hamilton Havoc" },
+      { label: "TODO: Las Vegas song", sub: "TODO: artist", team: "Las Vegas Vanguards" },
+      { label: "TODO: San Jose song", sub: "TODO: artist", team: "San Jose Sea Lions" }
     ]
   },
   {
@@ -904,7 +962,12 @@ const questions = [
       { label: "Taylor Heise", sub: "", team: "Minnesota Frost" },
       { label: "Marie-Philip Poulin", sub: "", team: "Montreal Victoire" },
       { label: "Gwyn Philips", sub: "", team: "Ottawa Charge" },
-      { label: "Emma Maltais", sub: "", team: "Toronto Sceptres" }
+      { label: "Emma Maltais", sub: "", team: "Toronto Sceptres" },
+      // TODO: fill in player name for each expansion team
+      { label: "TODO: Detroit player", sub: "", team: "Detroit Clutch" },
+      { label: "TODO: Hamilton player", sub: "", team: "Hamilton Havoc" },
+      { label: "TODO: Las Vegas player", sub: "", team: "Las Vegas Vanguards" },
+      { label: "TODO: San Jose player", sub: "", team: "San Jose Sea Lions" }
     ]
   },
   {
@@ -999,8 +1062,8 @@ function selectOption(i) {
   document.getElementById('btn-next').disabled = false;
 }
 
-const CANADIAN_TEAMS = ["Vancouver Goldeneyes", "Montreal Victoire", "Ottawa Charge", "Toronto Sceptres"];
-const US_TEAMS = ["Seattle Torrent", "Boston Fleet", "New York Sirens", "Minnesota Frost"];
+const CANADIAN_TEAMS = ["Vancouver Goldeneyes", "Montreal Victoire", "Ottawa Charge", "Toronto Sceptres", "Hamilton Havoc"];
+const US_TEAMS = ["Seattle Torrent", "Boston Fleet", "New York Sirens", "Minnesota Frost", "Detroit Clutch", "Las Vegas Vanguards", "San Jose Sea Lions"];
 
 function next() {
   const q = questions[currentQuestion];
@@ -1124,7 +1187,12 @@ const GLOW_COLORS = {
   "Minnesota Frost":      "#9c27b0",
   "Montreal Victoire":    "#3f51b5",
   "Ottawa Charge":        "#ffe600",
-  "Toronto Sceptres":     "#2196f3"
+  "Toronto Sceptres":     "#2196f3",
+  // TODO: pick a glow color (hex) for each expansion team's logo
+  "Detroit Clutch":        "#ffffff",
+  "Hamilton Havoc":        "#ffffff",
+  "Las Vegas Vanguards":   "#ffffff",
+  "San Jose Sea Lions":    "#ffffff"
 };
 
 // Build logo grid on title screen
@@ -1135,6 +1203,7 @@ Object.entries(LOGOS).forEach(function([team, url], i) {
   const img = document.createElement('img');
   img.src = url;
   img.alt = team;
+  img.onerror = function() { item.style.display = 'none'; }; // hides a logo until its real URL is added
   img.style.setProperty('--float-duration', (3 + (i % 4) * 0.5) + 's');
   img.style.setProperty('--float-delay', (i * 0.2) + 's');
   img.style.setProperty('--glow-color', GLOW_COLORS[team] || '#fff');
