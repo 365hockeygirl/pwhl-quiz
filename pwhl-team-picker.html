@@ -10,7 +10,25 @@
 <meta property="og:url" content="https://365hockeygirl.github.io/pwhl-quiz/pwhl-team-picker.html" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://365hockeygirl.github.io/pwhl-quiz/preview.png" />
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Gotham is a licensed font, so it can't be loaded from Google Fonts.
+     It will show for anyone who has it installed. Montserrat (very similar) is the fallback.
+     TODO: to show Gotham for everyone, buy a web license (typography.com), upload the font files
+     to the repo, and uncomment/update the url() lines below. */
+  @font-face {
+    font-family: 'Gotham';
+    font-weight: 400 600;
+    src: local('Gotham'), local('Gotham Medium'), local('Gotham-Medium');
+    /* src: url('https://365hockeygirl.github.io/pwhl-quiz/fonts/Gotham-Medium.woff2') format('woff2'); */
+  }
+  @font-face {
+    font-family: 'Gotham';
+    font-weight: 700;
+    src: local('Gotham Bold'), local('Gotham-Bold');
+    /* src: url('https://365hockeygirl.github.io/pwhl-quiz/fonts/Gotham-Bold.woff2') format('woff2'); */
+  }
+</style>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -64,9 +82,9 @@
   }
 
   h1 {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff;
     margin-bottom: 6px;
     text-align: center;
@@ -104,7 +122,8 @@
   }
 
   .question-text {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-weight: 700;
     font-size: 20px;
     color: #fff;
     margin-bottom: 20px;
@@ -273,9 +292,9 @@
   }
 
   .title-screen-h1 {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff;
     margin-bottom: 6px;
     text-align: center;
@@ -324,8 +343,8 @@
     padding: 14px 40px;
     border-radius: 10px;
     font-size: 16px;
-    font-family: 'Lora', serif;
-    font-weight: 600;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-weight: 700;
     cursor: pointer;
     margin-top: 8px;
     letter-spacing: 0.5px;
@@ -396,7 +415,8 @@
   }
 
   .result h2 {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-weight: 700;
     font-size: 28px;
     color: #fff;
     margin-bottom: 10px;
@@ -447,7 +467,8 @@
   }
 
   .loading-text {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-weight: 700;
     font-size: 24px;
     color: #fff;
     line-height: 1.6;
@@ -461,7 +482,8 @@
   }
 
   .loading-sig {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
+    font-weight: 700;
     font-style: italic;
     font-size: 18px;
     color: rgba(255,255,255,0.75);
@@ -641,9 +663,9 @@
   }
 
   .answers-title {
-    font-family: 'Lora', serif;
+    font-family: 'Gotham', 'Montserrat', sans-serif;
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff !important;
     text-align: center;
     margin-bottom: 20px;
@@ -659,7 +681,7 @@
 
   <!-- TITLE SCREEN -->
   <div id="title-screen">
-    <h1 class="title-screen-h1">✨PWHL Team Personality Test✨</h1>
+    <h1 class="title-screen-h1">✨PWHL Team Quiz✨</h1>
     <div class="team-logo-grid" id="title-logo-grid"></div>
     <button class="btn-take-quiz" onclick="enterQuiz()">take the quiz! 🔮</button>
     <a href="https://www.youtube.com/shorts/92FS6VKtzFI" target="_blank" rel="noopener" title="🎉"><img src="https://365hockeygirl.github.io/pwhl-quiz/365HGWhite.png" alt="365 Hockey Girl" class="title-logo-img" /></a>
@@ -924,7 +946,7 @@ const questions = [
       { label: "Lawyer ⚖️", sub: "", team: "Montreal Victoire" },
       { label: "Hacker 💻", sub: "", team: "Seattle Torrent" },
       { label: "EMT 🚑", sub: "", team: "New York Sirens" },
-      // TODO: fill in dream job for each expansion team
+      // TODO: fill in dream job (with emoji) for each expansion team
       { label: "TODO: Detroit job", sub: "", team: "Detroit Clutch" },
       { label: "TODO: Hamilton job", sub: "", team: "Hamilton Havoc" },
       { label: "TODO: Las Vegas job", sub: "", team: "Las Vegas Vanguards" },
@@ -944,7 +966,7 @@ const questions = [
       { label: "Don't Stop Me Now 🚀", sub: "Queen", team: "Minnesota Frost" },
       { label: "C'est la vie 🕺", sub: "Khaled", team: "Montreal Victoire" },
       { label: "Gonna Celebrate 🥳", sub: "The Phantoms", team: "Ottawa Charge" },
-      // TODO: fill in song title and artist for each expansion team
+      // TODO: fill in song title (with emoji) and artist for each expansion team
       { label: "TODO: Detroit song", sub: "TODO: artist", team: "Detroit Clutch" },
       { label: "TODO: Hamilton song", sub: "TODO: artist", team: "Hamilton Havoc" },
       { label: "TODO: Las Vegas song", sub: "TODO: artist", team: "Las Vegas Vanguards" },
