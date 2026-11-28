@@ -295,10 +295,10 @@
 
   .title-screen-h1 {
     font-family: 'Gotham', 'Montserrat', sans-serif;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
     text-align: center;
   }
 
@@ -1230,6 +1230,73 @@ Object.entries(LOGOS).forEach(function([team, url], i) {
   item.appendChild(img);
   grid.appendChild(item);
 });
+
+// ---- Logos repel away from the mouse / finger on the title screen ----
+(function() {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const RADIUS = 130;    // how close the pointer has to be (px) before a logo reacts
+  const MAX_PUSH = 48;   // how far a logo gets pushed away (px)
+  const EASE = 0.18;     // lower = softer / floatier movement
+
+  const items = Array.from(grid.querySelectorAll('.team-logo-item')).map(function(el) {
+    return { el: el, x: 0, y: 0 };
+  });
+  const titleScreen = document.getElementById('title-screen');
+  let pointer = null;   // {x, y} in viewport coords, or null when nothing is touching
+  let running = false;
+
+  function tick() {
+    let moving = false;
+    items.forEach(function(it) {
+      if (it.el.style.display === 'none') return;
+      const r = it.el.getBoundingClientRect();
+      // logo's resting center = current center minus the offset we already applied
+      const cx = r.left + r.width / 2 - it.x;
+      const cy = r.top + r.height / 2 - it.y;
+      let tx = 0, ty = 0;
+      if (pointer) {
+        const dx = cx - pointer.x, dy = cy - pointer.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+        if (dist < RADIUS) {
+          const strength = Math.pow(1 - dist / RADIUS, 1.5) * MAX_PUSH;
+          tx = (dx / dist) * strength;
+          ty = (dy / dist) * strength;
+        }
+      }
+      it.x += (tx - it.x) * EASE;
+      it.y += (ty - it.y) * EASE;
+      if (Math.abs(it.x) < 0.1 && Math.abs(it.y) < 0.1 && tx === 0 && ty === 0) { it.x = 0; it.y = 0; }
+      else moving = true;
+      it.el.style.transform = 'translate(' + it.x.toFixed(1) + 'px,' + it.y.toFixed(1) + 'px)';
+    });
+    if (moving || pointer) requestAnimationFrame(tick);
+    else running = false;
+  }
+
+  function setPointer(x, y) {
+    if (titleScreen.style.display === 'none') return;
+    pointer = { x: x, y: y };
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function clearPointer() {
+    pointer = null;
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+
+  // Mouse
+  titleScreen.addEventListener('mousemove', function(e) { setPointer(e.clientX, e.clientY); });
+  titleScreen.addEventListener('mouseleave', clearPointer);
+
+  // Touch (passive, so the page can still scroll)
+  function onTouch(e) {
+    if (e.touches.length) setPointer(e.touches[0].clientX, e.touches[0].clientY);
+  }
+  titleScreen.addEventListener('touchstart', onTouch, { passive: true });
+  titleScreen.addEventListener('touchmove', onTouch, { passive: true });
+  titleScreen.addEventListener('touchend', clearPointer);
+  titleScreen.addEventListener('touchcancel', clearPointer);
+})();
 
 // Set black background for title screen
 document.body.classList.add('title-mode');
